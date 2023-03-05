@@ -44,7 +44,7 @@ def get_meal_plan():
     dinner = dinners[randrange(0, len(dinners))]
 
     return dumps({
-        'breakfast': generate_meals(breakfast, 600, True, True, False, False),
-        'lunch': generate_meals(lunch, 600, False, False, False, True),
-        'dinner': generate_meals(dinner, 800, True, True, False, True)
+        'breakfast': generate_meals(breakfasts[0], 600, True, True, False, False),
+        'lunch': generate_meals(lunches[1], 600, False, False, False, True),
+        'dinner': generate_meals(dinners[2], 800, True, True, False, True)
     })
