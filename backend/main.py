@@ -4,10 +4,18 @@ from server import app
 from json import dumps
 from flask import request
 from datetime import date
+from random import randrange
+
+@db.needs_db('session')
+def get_with_restrictions(filter_clause, meal, hall, session):
+    filter = filter_clause[:]
+    filter.append(menu.MenuItem.hall == hall)
+    filter.append(menu.MenuItem.meal == meal)
+    result = session.query(menu.MenuItem).filter(*filter).all()
+    return [row.simplified() for row in result]
 
 @app.route('/api/get-meal-plan')
-@db.needs_db('session')
-def get_meal_plan(session):
+def get_meal_plan():
     flags = ['vegetarian', 'vegan', 'peanut', 'eggs', 'treenut', 'wheat', 'gluten', 'soy', 'sesame',
              'dairy', 'shellfish', 'fish', 'halal', 'lowcarbon', 'lowsugar', 'lowcarbs', 'lowfat']
     menu_flag = [menu.MenuItem.vegetarian, menu.MenuItem.vegan, menu.MenuItem.peanuts, menu.MenuItem.eggs,
@@ -22,6 +30,20 @@ def get_meal_plan(session):
         if req is not None:
             filter_clause.append(menu_flag[index] == int(req))
 
-    items = session.query(menu.MenuItem).filter(*filter_clause).all()
+    breakfasts = [get_with_restrictions(filter_clause, 'Breakfast', 'De Neve'),
+                  get_with_restrictions(filter_clause, 'Breakfast', 'Bruin Plate')]
+    lunches = [get_with_restrictions(filter_clause, 'Lunch', 'De Neve'),
+             get_with_restrictions(filter_clause, 'Lunch', 'Bruin Plate')]
+    dinners = [get_with_restrictions(filter_clause, 'Dinner', 'De Neve'),
+              get_with_restrictions(filter_clause, 'Dinner', 'Bruin Plate'),
+              get_with_restrictions(filter_clause, 'Dinner', 'Epicuria')]
 
-    return dumps([row.simplified() for row in items])
+    breakfast = breakfasts[randrange(0, len(breakfasts))]
+    lunch = lunches[randrange(0, len(lunches))]
+    dinner = dinners[randrange(0, len(dinners))]
+
+    return dumps({
+        'breakfast': breakfast,
+        'lunch': lunch,
+        'dinner': dinner
+    })
