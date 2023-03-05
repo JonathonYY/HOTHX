@@ -37,6 +37,8 @@ class MenuItem(OrmBase):
 
     def __init__(self, values):
         for key, value in values.items():
+            if (value is None) or (value == '' and key != 'im_url'):
+                raise ValueError('{} should not be None'.format(key))
             setattr(self, key, value)
 
     def simplified(self):
