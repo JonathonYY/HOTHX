@@ -5,6 +5,7 @@ from json import dumps
 from flask import request
 from datetime import date
 from random import randrange
+from alg import generate_meals
 
 @db.needs_db('session')
 def get_with_restrictions(filter_clause, meal, hall, session):
@@ -43,7 +44,7 @@ def get_meal_plan():
     dinner = dinners[randrange(0, len(dinners))]
 
     return dumps({
-        'breakfast': breakfast,
-        'lunch': lunch,
-        'dinner': dinner
+        'breakfast': generate_meals(breakfast, 600, True, True, False, False),
+        'lunch': generate_meals(lunch, 600, False, False, False, True),
+        'dinner': generate_meals(dinner, 800, True, True, False, True)
     })
