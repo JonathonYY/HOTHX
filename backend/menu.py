@@ -35,6 +35,10 @@ class MenuItem(OrmBase):
     sodium_dv: db.Mapped[float] = db.mapped_column(db.Float())
     vit_d_dv: db.Mapped[float] = db.mapped_column(db.Float())
 
+    def __init__(self, values):
+        for key, value in values.items():
+            setattr(self, key, value)
+
     def simplified(self):
         return { key: value for key, value in vars(self).items() }
 
