@@ -1,5 +1,5 @@
 from sqlalchemy import SmallInteger
-
+import datetime
 import db
 
 class OrmBase(db.DeclarativeBase):
@@ -13,7 +13,8 @@ class MenuItem(OrmBase):
 
     hall: db.Mapped[str] = db.mapped_column(db.String(25))
     meal: db.Mapped[str] = db.mapped_column(db.String(10))
-    carbon_score: db.Mapped[str] = db.mapped_column(db.Integer())
+    date: db.Mapped[str] = db.mapped_column(db.Date)
+    carbon_score: db.Mapped[datetime.date] = db.mapped_column(db.Integer())
     im_url: db.Mapped[str] = db.mapped_column(db.String(200))
 
     calories: db.Mapped[float] = db.mapped_column(db.Float())
@@ -60,6 +61,8 @@ class MenuItem(OrmBase):
             setattr(self, key, value)
 
     def simplified(self):
-        return { key: value for key, value in vars(self).items() }
+        ret = { key: value for key, value in vars(self).items() if key[0] != '_' }
+        ret['date'] = str(ret['date'])
+        return ret
 
 OrmBase.metadata.create_all(db.engine)

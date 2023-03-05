@@ -10,11 +10,13 @@ def get_day_menu(menu_date):
     breakfast = requests.get(base_url + "/Breakfast")
     lunch = requests.get(base_url + "/Lunch")
     dinner = requests.get(base_url + "/Dinner")
-    vals = parse_meal(breakfast.text, "Breakfast") + parse_meal(lunch.text, "Lunch") + parse_meal(dinner.text, "Dinner")
+    vals = parse_meal(breakfast.text, "Breakfast", menu_date)
+    vals += parse_meal(lunch.text, "Lunch", menu_date)
+    vals += parse_meal(dinner.text, "Dinner", menu_date)
     return vals
 
 
-def parse_meal(source, meal):
+def parse_meal(source, meal, menu_date):
     # parse portion of daily menu, for a specific meal
     epic = None
     de_neve = None
@@ -35,6 +37,7 @@ def parse_meal(source, meal):
         for match in matches:
             v = parse_recipe(match, 'Epicuria', meal)
             if v:
+                v['date'] = menu_date
                 vals.append(v)
 
     if de_neve:
@@ -42,6 +45,7 @@ def parse_meal(source, meal):
         for match in matches:
             v = parse_recipe(match, 'De Neve', meal)
             if v:
+                v['date'] = menu_date
                 vals.append(v)
 
     if b_plate:
@@ -49,6 +53,7 @@ def parse_meal(source, meal):
         for match in matches:
             v = parse_recipe(match, 'Bruin Plate', meal)
             if v:
+                v['date'] = menu_date
                 vals.append(v)
 
     return vals
@@ -184,4 +189,3 @@ if __name__ == '__main__':
     for recipe in vals:
         print(recipe)
     print(len(vals))
-    # upload_meals()
