@@ -55,12 +55,12 @@ def parse_meal(source, meal):
 
 def parse_recipe(url, hall, time):
     r = requests.get(url)
-    vals = {'meal': time, 'hall': hall, 'carbon_score': 0, 'name': None, 'calories': None,
-            'fat': None, 'sat_fat': None, 'chol': None, 'sodium': None, 'carbs': None,
-            'protein': None, 'calcium_dv': None, 'iron_dv': None, 'potassium_dv': None,
-            'vit_d_dv': None, 'fat_dv': None, 'sat_fat_dv': None, 'chol_dv': None,
-            'sodium_dv': None, 'carbs_dv': None, 'fiber': None, 'fiber_dv': None,
-            'sugar': None, 'im_url': None, 'trans_fat': None}
+    vals = {'meal': time, 'hall': hall, 'carbon_score': 0, 'name': '', 'calories': 0,
+            'fat': 0, 'sat_fat': 0, 'chol': 0, 'sodium': 0, 'carbs': 0,
+            'protein': 0, 'calcium_dv': 0, 'iron_dv': 0, 'potassium_dv': 0,
+            'vit_d_dv': 0, 'fat_dv': 0, 'sat_fat_dv': 0, 'chol_dv': 0,
+            'sodium_dv': 0, 'carbs_dv': 0, 'fiber': 0, 'fiber_dv': 0,
+            'sugar': 0, 'im_url': '', 'trans_fat': 0}
 
     # Extract name
     pattern = '<title>(.*)</title>'
@@ -86,65 +86,65 @@ def parse_recipe(url, hall, time):
     text = text.split('Percent Daily Values')[0]
 
     # Extract calories
-    pattern = 'Calories[^0-9]*([0-9]*)'
+    pattern = 'Calories[^0-9]*([0-9]+)'
     m = re.search(pattern, text)
     if m:
         vals['calories'] = m.group(1)
 
     # Extract fat
-    pattern = 'Total Fat[^0-9]*([0-9.]*)g[^0-9]*([0-9.]*)'
+    pattern = 'Total Fat[^0-9]*([0-9.]+)g[^0-9]*([0-9.]+)'
     m = re.search(pattern, text)
     if m:
         vals['fat'] = m.group(1)
         vals['fat_dv'] = m.group(2)
 
-    pattern = 'Saturated Fat[^0-9]*([0-9.]*)g[^0-9]*([0-9.]*)'
+    pattern = 'Saturated Fat[^0-9]*([0-9.]+)g[^0-9]*([0-9.]+)'
     m = re.search(pattern, text)
     if m:
         vals['sat_fat'] = m.group(1)
         vals['sat_fat_dv'] = m.group(2)
 
-    pattern = 'Trans Fat[^0-9]*([0-9.]*)g'
+    pattern = 'Trans Fat[^0-9]*([0-9.]+)g'
     m = re.search(pattern, text)
     if m:
         vals['trans_fat'] = m.group(1)
 
     # Extract cholesterol
-    pattern = 'Cholesterol[^0-9]*([0-9.]*)mg[^0-9]*([0-9.]*)'
+    pattern = 'Cholesterol[^0-9]*([0-9.]+)mg[^0-9]*([0-9.]+)'
     m = re.search(pattern, text)
     if m:
         vals['chol'] = m.group(1)
         vals['chol_dv'] = m.group(2)
 
     # Extract sodium
-    pattern = 'Sodium[^0-9]*([0-9.]*)mg[^0-9]*([0-9.]*)'
+    pattern = 'Sodium[^0-9]*([0-9.]+)mg[^0-9]*([0-9.]+)'
     m = re.search(pattern, text)
     if m:
         vals['sodium'] = m.group(1)
         vals['sodium_dv'] = m.group(2)
 
     # Extract carbs
-    pattern = 'Total Carbohydrate[^0-9]*([0-9.]*)g[^0-9]*([0-9.]*)'
+    pattern = 'Total Carbohydrate[^0-9]*([0-9.]+)g[^0-9]*([0-9.]+)'
     m = re.search(pattern, text)
     if m:
         vals['carbs'] = m.group(1)
         vals['carbs_dv'] = m.group(2)
 
     # Extract fiber
-    pattern = 'Dietary Fiber[^0-9]*([0-9.]*)g[^0-9]*([0-9.]*)'
+    pattern = 'Dietary Fiber[^0-9]*([0-9.]+)g[^0-9]*([0-9.]+)'
     m = re.search(pattern, text)
     if m:
         vals['fiber'] = m.group(1)
         vals['fiber_dv'] = m.group(2)
 
     # Extract sugar
-    pattern = 'Sugars[^0-9]*([0-9.]*)g'
+    pattern = 'Sugars[^0-9]*([0-9.]+)g'
     m = re.search(pattern, text)
     if m:
         vals['sugar'] = m.group(1)
 
     # Extract protein
-    pattern = 'Protein[^0-9]*([0-9.]*)g'
+    pattern = 'Protein[^0-9]*([0-9.]+)g'
     m = re.search(pattern, text)
     if m:
         vals['protein'] = m.group(1)
@@ -154,7 +154,7 @@ def parse_recipe(url, hall, time):
     calcium, text = text.split('Iron')
     iron, text = text.split('Potassium')
     potassium, vitamin_d = text.split('Vitamin D')
-    pattern = '([0-9.]*)%'
+    pattern = '([0-9.]+)%'
     m = re.search(pattern, calcium)
     if m:
         vals['calcium_dv'] = m.group(1)
