@@ -9,9 +9,8 @@ def get_day_menu(menu_date):
     text = r.text.split('Breakfast Menu for Today, ')[1]
     breakfast, text = text.split('Lunch Menu for Today, ')
     lunch, dinner = text.split('Dinner Menu for Today, ')
-    parse_meal(breakfast, "Breakfast")
-    parse_meal(lunch, "Lunch")
-    parse_meal(dinner, "Dinner")
+    vals = parse_meal(breakfast, "Breakfast") + parse_meal(lunch, "Lunch") + parse_meal(dinner, "Dinner")
+    return vals
 
 
 def parse_meal(source, meal):
@@ -27,21 +26,31 @@ def parse_meal(source, meal):
         text = source.split('<h3 class="col-header">De Neve</h3>')[1]
         de_neve, b_plate = text.split('<h3 class="col-header">Bruin Plate</h3>')
 
+    vals = []
+
     menu_link = r'https://menu.dining.ucla.edu/Recipes/[0-9]*/[0-9!]*'
     if epic:
         matches = re.findall(menu_link, epic)
         for match in matches:
-            parse_recipe(match, 'Epicuria', meal)
+            v = parse_recipe(match, 'Epicuria', meal)
+            if v:
+                vals.append(v)
 
     if de_neve:
         matches = re.findall(menu_link, de_neve)
         for match in matches:
-            parse_recipe(match, 'De Neve', meal)
+            v = parse_recipe(match, 'De Neve', meal)
+            if v:
+                vals.append(v)
 
     if b_plate:
         matches = re.findall(menu_link, b_plate)
         for match in matches:
-            parse_recipe(match, 'Bruin Plate', meal)
+            v = parse_recipe(match, 'Bruin Plate', meal)
+            if v:
+                vals.append(v)
+
+    return vals
 
 
 def parse_recipe(url, hall, time):
@@ -159,8 +168,11 @@ def parse_recipe(url, hall, time):
     if m:
         vals['vit_d_dv'] = m.group(1)
 
-    print(vals)
+    return vals
 
 
 if __name__ == '__main__':
-    get_day_menu(date.today())
+    vals = get_day_menu(date.today())
+    for recipe in vals:
+        print(recipe)
+    print(len(vals))
