@@ -2,10 +2,9 @@ import requests
 import re
 from datetime import date
 
-global counter
 
-def get_day_menu(date):
-    url = 'https://menu.dining.ucla.edu/Menus/' + str(date)
+def get_day_menu(menu_date):
+    url = 'https://menu.dining.ucla.edu/Menus/' + str(menu_date)
     r = requests.get(url)
     text = r.text.split('Breakfast Menu for Today, ')[1]
     breakfast, text = text.split('Lunch Menu for Today, ')
@@ -48,7 +47,7 @@ def parse_meal(source, meal):
 def parse_recipe(url, hall, time):
     r = requests.get(url)
     vals = {'meal': time, 'hall': hall, 'carbon_score': 0, 'name': None, 'calories': None,
-            'fat': None, 'sat_fat':None, 'chol': None, 'sodium': None, 'carbs': None,
+            'fat': None, 'sat_fat': None, 'chol': None, 'sodium': None, 'carbs': None,
             'protein': None, 'calcium_dv': None, 'iron_dv': None, 'potassium_dv': None,
             'vit_d_dv': None, 'fat_dv': None, 'sat_fat_dv': None, 'chol_dv': None,
             'sodium_dv': None, 'carbs_dv': None, 'fiber': None, 'fiber_dv': None,
@@ -145,7 +144,7 @@ def parse_recipe(url, hall, time):
     text = text.split('Calcium')[1]
     calcium, text = text.split('Iron')
     iron, text = text.split('Potassium')
-    potassium, vitamin_D = text.split('Vitamin D')
+    potassium, vitamin_d = text.split('Vitamin D')
     pattern = '([0-9.]*)%'
     m = re.search(pattern, calcium)
     if m:
@@ -156,7 +155,7 @@ def parse_recipe(url, hall, time):
     m = re.search(pattern, potassium)
     if m:
         vals['potassium_dv'] = m.group(1)
-    m = re.search(pattern, vitamin_D)
+    m = re.search(pattern, vitamin_d)
     if m:
         vals['vit_d_dv'] = m.group(1)
 
