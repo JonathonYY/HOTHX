@@ -8,15 +8,20 @@ from datetime import date
 @app.route('/api/get-meal-plan')
 @db.needs_db('session')
 def get_meal_plan(session):
-    low_carbon = request.args.get('lowcarbon')
-    low_sugar = request.args.get('lowsugar')
-    low_carbs = request.args.get('lowcarbs')
-    low_fat = request.args.get('lowfat')
-    req_date = request.args.get('date')
+    flags = ['vegetarian', 'vegan', 'peanut', 'eggs', 'treenut', 'wheat', 'gluten', 'soy', 'sesame',
+             'dairy', 'shellfish', 'fish', 'halal', 'lowcarbon', 'lowsugar', 'lowcarbs', 'lowfat']
+    menu_flag = [menu.MenuItem.vegetarian, menu.MenuItem.vegan, menu.MenuItem.peanuts, menu.MenuItem.eggs,
+                 menu.MenuItem.tree_nuts, menu.MenuItem.wheat, menu.MenuItem.gluten, menu.MenuItem.soy,
+                 menu.MenuItem.sesame, menu.MenuItem.dairy, menu.MenuItem.shellfish, menu.MenuItem.fish,
+                 menu.MenuItem.halal]
+    req_date = request.args.get('date') or str(date.today())
 
-    if req_date is None:
-        req_date = str(date.today())
+    filter_clause = [menu.MenuItem.date == req_date]
+    for (index, flag) in enumerate(flags):
+        req = request.args.get(flag)
+        if req is not None:
+            filter_clause.append(menu_flag[index] == int(req))
 
-    items = session.query(menu.MenuItem).filter(menu.MenuItem.date == req_date).all()
+    items = session.query(menu.MenuItem).filter(*filter_clause).all()
+
     return dumps([row.simplified() for row in items])
-
