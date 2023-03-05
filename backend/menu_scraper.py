@@ -1,6 +1,8 @@
 import requests
 import re
 from datetime import date
+import db
+import menu
 
 
 def get_day_menu(menu_date):
@@ -61,7 +63,6 @@ def parse_recipe(url, hall, time):
             'vit_d_dv': 0, 'fat_dv': 0, 'sat_fat_dv': 0, 'chol_dv': 0,
             'sodium_dv': 0, 'carbs_dv': 0, 'fiber': 0, 'fiber_dv': 0,
             'sugar': 0, 'im_url': '', 'trans_fat': 0}
-
     # Extract name
     pattern = '<title>(.*)</title>'
     m = re.search(pattern, r.text)
@@ -169,6 +170,12 @@ def parse_recipe(url, hall, time):
         vals['vit_d_dv'] = m.group(1)
 
     return vals
+
+
+@db.needs_db('sess')
+def upload_meals(sess):
+    items = map(menu.MenuItem, get_day_menu(date.today()))
+    sess.add_all(items)
 
 
 if __name__ == '__main__':
