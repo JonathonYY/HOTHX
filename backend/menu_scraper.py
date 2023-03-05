@@ -68,6 +68,7 @@ def parse_recipe(url, hall, time):
             'fiber_dv': 0, 'sugar': 0, 'im_url': '', 'trans_fat': 0, 'vegetarian': 0,
             'vegan': 0, 'peanuts': 0, 'tree_nuts': 0, 'wheat': 0, 'gluten': 0, 'soy': 0,
             'sesame': 0, 'dairy': 0, 'eggs': 0, 'shellfish': 0, 'fish': 0, 'halal': 0}
+
     # Extract name
     pattern = '<title>(.*)</title>'
     m = re.search(pattern, r.text)
@@ -76,12 +77,40 @@ def parse_recipe(url, hall, time):
             return
         vals['name'] = m.group(1).replace('&amp;', '&').replace('&#233;', 'e').replace('&#39;',
                                                                                        "'").replace('&#225;', 'a')
-
     # Extract carbon score
     if 'Low Carbon Footprint' in r.text:
         vals['carbon_score'] = 1
     elif 'High Carbon Footprint' in r.text:
         vals['carbon_score'] = -1
+
+    # Check Dietary Restrictions
+    if 'Vegan Menu Option' in r.text:
+        vals['vegan'] = 1
+        vals['vegetarian'] = 1
+    elif 'Vegetarian Menu Option' in r.text:
+        vals['vegetarian'] = 1
+    if 'Contains Peanuts' in r.text:
+        vals['peanuts'] = 1
+    if 'Contains Tree Nuts' in r.text:
+        vals['tree_nuts'] = 1
+    if 'Contains Wheat' in r.text:
+        vals['wheat'] = 1
+    if 'Contains Gluten' in r.text:
+        vals['gluten'] = 1
+    if 'Contains Soy' in r.text:
+        vals['soy'] = 1
+    if 'Contains Sesame' in r.text:
+        vals['sesame'] = 1
+    if 'Contains Dairy' in r.text:
+        vals['dairy'] = 1
+    if 'Contains Eggs' in r.text:
+        vals['eggs'] = 1
+    if 'Contains Crustacean Shellfish' in r.text:
+        vals['shellfish'] = 1
+    if 'Contains Fish' in r.text:
+        vals['fish'] = 1
+    if 'Halal Menu Option' in r.text:
+        vals['halal'] = 1
 
     # Extract image source
     pattern = '/Content/Images/RecipeImages/[0-9]*.jpg'

@@ -92,13 +92,13 @@ def get_ideal_meal(dict_all_items, dining_hall_choice, dining_hall_period, calor
 
             if i.carbon_score == -1: # high carbon
                 score += 2 * CARBON_SCORE_DEFUALT
-                if carbon_flag == true:
+                if carbon_flag == True:
                     score += 2 * CARBON_SCORE_DEFUALT
             elif i.carbon_score == 0:
                 i.score += CARBON_SCORE_DEFUALT
 
         
-            if fat_flag == true:
+            if fat_flag == True:
                 fat_temp = i.fat if i.fat_dv < daily_value_portion else (i.fat*(daily_value_portion/i.fat_dv))
                 fat_remainder = i.fat - fat_temp
                 i.score += fat_temp * FAT_DEFAULT * 2
@@ -136,7 +136,7 @@ def get_ideal_meal(dict_all_items, dining_hall_choice, dining_hall_period, calor
             i.score += sodium_temp * CHOL_DEFAULT
             i.score += sodium_remainder * CHOL_DEFAULT * 2
 
-            if carbs_flag == true:
+            if carbs_flag == True:
                 carbs_temp = i.carbs if i.carbs_dv < daily_value_portion else (i.carbs*(daily_value_portion/i.carbs_dv))
                 carbs_remainder = i.carbs - carbs_temp
                 i.score += carbs_temp * CARBS_DEFAULT * 2
@@ -150,7 +150,7 @@ def get_ideal_meal(dict_all_items, dining_hall_choice, dining_hall_period, calor
 
             i.score += (daily_value_portion - i.fiber_dv) * FIBER_DEFAULT
 
-            if sugar_flag == true:
+            if sugar_flag == True:
                 i.score += i.sugar * SUGAR_DEFAULT * 2
             else:
                 i.score += i.sugar * SUGAR_DEFAULT
@@ -164,7 +164,7 @@ def get_ideal_meal(dict_all_items, dining_hall_choice, dining_hall_period, calor
             i.score += (daily_value_portion - i.vit_d_dv) * VIT_D_DEFUALT
 
 
-    ### SORT ITEMS FROM THAT DINING HALL AND PUT THEM IN A NEW SET ###
+
 
     current_menu_items = []
     iter = MAX_ORDERS_PER_ITEM
@@ -242,7 +242,7 @@ def cost_function(dict_all_items):
     # 4 = THE STUDY
 
 
-    breakfast_hall = random.randint(0,4)
+    breakfast_hall = random.randint(0,4) ##TODO: CHOOSE ONE THAT'S OPEN!!
     lunch_hall = random.randint(0,4)
     ignore = -1
     if breakfast_hall == lunch_hall:
@@ -256,10 +256,10 @@ def cost_function(dict_all_items):
 
 
     ### flags ### - *ADD ACTUAL VALUES HERE WHEN U FIND OUT HOW THEY'RE IMPlEMENTED
-    carbon_flag = false
-    carbs_flag = false
-    fat_flag = false
-    sugar_flag = false
+    carbon_flag = False
+    carbs_flag = False
+    fat_flag = False
+    sugar_flag = False
 
     calorie_count = DAILY_CALORIE_DEFAULT
 
