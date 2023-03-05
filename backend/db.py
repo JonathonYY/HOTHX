@@ -19,7 +19,6 @@ def needs_db(var_name):
         def __db_deco(*args, **kwargs):
             scoped_sess = scoped_session(session_factory)
             kwargs[var_name] = scoped_sess()
-            print(kwargs)
             result = func(*args, **kwargs)
             scoped_sess.commit()
             scoped_sess.remove()
