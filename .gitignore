@@ -1,2 +1,10 @@
+./frontend/node_modules/*
+node_modules/*
+./frontend/.gitignore
+.DS_Store
+*~
 venv
 .idea
+
+.env
+__pycache__
