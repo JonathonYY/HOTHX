@@ -1,3 +1,5 @@
+from sqlalchemy import SmallInteger
+import datetime
 import db
 
 class OrmBase(db.DeclarativeBase):
@@ -11,18 +13,34 @@ class MenuItem(OrmBase):
 
     hall: db.Mapped[str] = db.mapped_column(db.String(25))
     meal: db.Mapped[str] = db.mapped_column(db.String(10))
-    carbon_score: db.Mapped[str] = db.mapped_column(db.Integer())
+    date: db.Mapped[str] = db.mapped_column(db.Date)
+    carbon_score: db.Mapped[datetime.date] = db.mapped_column(db.Integer())
     im_url: db.Mapped[str] = db.mapped_column(db.String(200))
 
-    calories: db.Mapped[int] = db.mapped_column(db.Integer())
-    carbs: db.Mapped[int] = db.mapped_column(db.Integer())
-    chol: db.Mapped[int] = db.mapped_column(db.Integer())
-    fat: db.Mapped[int] = db.mapped_column(db.Integer())
-    fiber: db.Mapped[int] = db.mapped_column(db.Integer())
-    protein: db.Mapped[int] = db.mapped_column(db.Integer())
-    sat_fat: db.Mapped[int] = db.mapped_column(db.Integer())
-    sodium: db.Mapped[int] = db.mapped_column(db.Integer())
-    sugar: db.Mapped[int] = db.mapped_column(db.Integer())
+    calories: db.Mapped[float] = db.mapped_column(db.Float())
+    carbs: db.Mapped[float] = db.mapped_column(db.Float())
+    chol: db.Mapped[float] = db.mapped_column(db.Float())
+    fat: db.Mapped[float] = db.mapped_column(db.Float())
+    fiber: db.Mapped[float] = db.mapped_column(db.Float())
+    protein: db.Mapped[float] = db.mapped_column(db.Float())
+    sat_fat: db.Mapped[float] = db.mapped_column(db.Float())
+    sodium: db.Mapped[float] = db.mapped_column(db.Float())
+    sugar: db.Mapped[float] = db.mapped_column(db.Float())
+    trans_fat: db.Mapped[float] = db.mapped_column(db.Float())
+
+    vegetarian: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    vegan: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    peanuts: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    tree_nuts: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    wheat: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    gluten: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    soy: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    sesame: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    dairy: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    eggs: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    shellfish: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    fish: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    halal: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
 
     calcium_dv: db.Mapped[float] = db.mapped_column(db.Float())
     carbs_dv: db.Mapped[float] = db.mapped_column(db.Float())
@@ -35,6 +53,7 @@ class MenuItem(OrmBase):
     sodium_dv: db.Mapped[float] = db.mapped_column(db.Float())
     vit_d_dv: db.Mapped[float] = db.mapped_column(db.Float())
 
+
     def __init__(self, values):
         for key, value in values.items():
             if (value is None) or (value == '' and key != 'im_url'):
@@ -42,6 +61,8 @@ class MenuItem(OrmBase):
             setattr(self, key, value)
 
     def simplified(self):
-        return { key: value for key, value in vars(self).items() }
+        ret = { key: value for key, value in vars(self).items() if key[0] != '_' }
+        ret['date'] = str(ret['date'])
+        return ret
 
 OrmBase.metadata.create_all(db.engine)

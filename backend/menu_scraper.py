@@ -6,16 +6,17 @@ import menu
 
 
 def get_day_menu(menu_date):
-    url = 'https://menu.dining.ucla.edu/Menus/' + str(menu_date)
-    r = requests.get(url)
-    text = r.text.split('Breakfast Menu for Today, ')[1]
-    breakfast, text = text.split('Lunch Menu for Today, ')
-    lunch, dinner = text.split('Dinner Menu for Today, ')
-    vals = parse_meal(breakfast, "Breakfast") + parse_meal(lunch, "Lunch") + parse_meal(dinner, "Dinner")
+    base_url = 'https://menu.dining.ucla.edu/Menus/' + str(menu_date)
+    breakfast = requests.get(base_url + "/Breakfast")
+    lunch = requests.get(base_url + "/Lunch")
+    dinner = requests.get(base_url + "/Dinner")
+    vals = parse_meal(breakfast.text, "Breakfast", menu_date)
+    vals += parse_meal(lunch.text, "Lunch", menu_date)
+    vals += parse_meal(dinner.text, "Dinner", menu_date)
     return vals
 
 
-def parse_meal(source, meal):
+def parse_meal(source, meal, menu_date):
     # parse portion of daily menu, for a specific meal
     epic = None
     de_neve = None
@@ -36,6 +37,7 @@ def parse_meal(source, meal):
         for match in matches:
             v = parse_recipe(match, 'Epicuria', meal)
             if v:
+                v['date'] = menu_date
                 vals.append(v)
 
     if de_neve:
@@ -43,6 +45,7 @@ def parse_meal(source, meal):
         for match in matches:
             v = parse_recipe(match, 'De Neve', meal)
             if v:
+                v['date'] = menu_date
                 vals.append(v)
 
     if b_plate:
@@ -50,6 +53,7 @@ def parse_meal(source, meal):
         for match in matches:
             v = parse_recipe(match, 'Bruin Plate', meal)
             if v:
+                v['date'] = menu_date
                 vals.append(v)
 
     return vals
@@ -58,24 +62,55 @@ def parse_meal(source, meal):
 def parse_recipe(url, hall, time):
     r = requests.get(url)
     vals = {'meal': time, 'hall': hall, 'carbon_score': 0, 'name': '', 'calories': 0,
-            'fat': 0, 'sat_fat': 0, 'chol': 0, 'sodium': 0, 'carbs': 0,
-            'protein': 0, 'calcium_dv': 0, 'iron_dv': 0, 'potassium_dv': 0,
-            'vit_d_dv': 0, 'fat_dv': 0, 'sat_fat_dv': 0, 'chol_dv': 0,
-            'sodium_dv': 0, 'carbs_dv': 0, 'fiber': 0, 'fiber_dv': 0,
-            'sugar': 0, 'im_url': '', 'trans_fat': 0}
+            'fat': 0, 'sat_fat': 0, 'chol': 0, 'sodium': 0, 'carbs': 0, 'protein': 0,
+            'calcium_dv': 0, 'iron_dv': 0, 'potassium_dv': 0, 'vit_d_dv': 0, 'fat_dv': 0,
+            'sat_fat_dv': 0, 'chol_dv': 0, 'sodium_dv': 0, 'carbs_dv': 0, 'fiber': 0,
+            'fiber_dv': 0, 'sugar': 0, 'im_url': '', 'trans_fat': 0, 'vegetarian': 0,
+            'vegan': 0, 'peanuts': 0, 'tree_nuts': 0, 'wheat': 0, 'gluten': 0, 'soy': 0,
+            'sesame': 0, 'dairy': 0, 'eggs': 0, 'shellfish': 0, 'fish': 0, 'halal': 0}
+
     # Extract name
     pattern = '<title>(.*)</title>'
     m = re.search(pattern, r.text)
     if m:
         if m.group(1) == 'UCLA Dining Services':
             return
-        vals['name'] = m.group(1).replace('&amp;', '&')
-
+        vals['name'] = m.group(1).replace('&amp;', '&').replace('&#233;', 'e').replace('&#39;',
+                                                                                       "'").replace('&#225;', 'a')
     # Extract carbon score
     if 'Low Carbon Footprint' in r.text:
         vals['carbon_score'] = 1
     elif 'High Carbon Footprint' in r.text:
         vals['carbon_score'] = -1
+
+    # Check Dietary Restrictions
+    if 'Vegan Menu Option' in r.text:
+        vals['vegan'] = 1
+        vals['vegetarian'] = 1
+    elif 'Vegetarian Menu Option' in r.text:
+        vals['vegetarian'] = 1
+    if 'Contains Peanuts' in r.text:
+        vals['peanuts'] = 1
+    if 'Contains Tree Nuts' in r.text:
+        vals['tree_nuts'] = 1
+    if 'Contains Wheat' in r.text:
+        vals['wheat'] = 1
+    if 'Contains Gluten' in r.text:
+        vals['gluten'] = 1
+    if 'Contains Soy' in r.text:
+        vals['soy'] = 1
+    if 'Contains Sesame' in r.text:
+        vals['sesame'] = 1
+    if 'Contains Dairy' in r.text:
+        vals['dairy'] = 1
+    if 'Contains Eggs' in r.text:
+        vals['eggs'] = 1
+    if 'Contains Crustacean Shellfish' in r.text:
+        vals['shellfish'] = 1
+    if 'Contains Fish' in r.text:
+        vals['fish'] = 1
+    if 'Halal Menu Option' in r.text:
+        vals['halal'] = 1
 
     # Extract image source
     pattern = '/Content/Images/RecipeImages/[0-9]*.jpg'
