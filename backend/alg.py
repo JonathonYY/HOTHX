@@ -3,7 +3,7 @@
 
 ### DEFINE DEFAULTS FOR EACH PARAMETER HERE
 
-CARBON_SCORE_DEFUALT = 15
+CARBON_SCORE_DEFAULT = 15
 FAT_DEFAULT = 2
 SAT_FAT_DEFAULT = 3
 TRANS_FAT_DEFAULT = 6
@@ -14,7 +14,7 @@ FIBER_DEFAULT = 1
 SUGAR_DEFAULT = 8
 PROTEIN_DEFAULT = 2
 PROTEIN_DAILY_AMOUNT = 56 # could add option to change it - recommended formula is 0.8 * body weight (kg)
-CALCIUM_DEFUALT = 0.2
+CALCIUM_DEFAULT = 0.2
 IRON_DEFAULT = 0.2
 POTASSIUM_DEFAULT = 0.2
 VIT_D_DEFAULT = 0.2
@@ -55,7 +55,7 @@ ALG_ITERATIONS = 3
 
 
 
-### END DEFINE DEFUALTS FOR EACH PARAMETER
+### END DEFINE DEFAULTS FOR EACH PARAMETER
 
 
 
@@ -91,11 +91,11 @@ def get_ideal_meal(dict_all_items, dining_hall_choice, dining_hall_period, calor
         if(i.hall == dining_hall_choice):
 
             if i.carbon_score == -1: # high carbon
-                score += 2 * CARBON_SCORE_DEFUALT
+                score += 2 * CARBON_SCORE_DEFAULT
                 if carbon_flag == True:
-                    score += 2 * CARBON_SCORE_DEFUALT
+                    score += 2 * CARBON_SCORE_DEFAULT
             elif i.carbon_score == 0:
-                i.score += CARBON_SCORE_DEFUALT
+                i.score += CARBON_SCORE_DEFAULT
 
         
             if fat_flag == True:
@@ -158,26 +158,25 @@ def get_ideal_meal(dict_all_items, dining_hall_choice, dining_hall_period, calor
             i.score += ((PROTEIN_DAILY_AMOUNT * daily_value_portion) - i.protein) * PROTEIN_DEFAULT
 
 
-            i.score += (daily_value_portion - i.calcium_dv) * CALCIUM_DEFUALT
-            i.score += (daily_value_portion - i.iron_dv) * IRON_DEFUALT
-            i.score += (daily_value_portion - i.potassium_dv) * potassium_DEFUALT
-            i.score += (daily_value_portion - i.vit_d_dv) * VIT_D_DEFUALT
+            i.score += (daily_value_portion - i.calcium_dv) * CALCIUM_DEFAULT
+            i.score += (daily_value_portion - i.iron_dv) * IRON_DEFAULT
+            i.score += (daily_value_portion - i.potassium_dv) * POTASSIUM_DEFAULT
+            i.score += (daily_value_portion - i.vit_d_dv) * VIT_D_DEFAULT
 
 
 
 
     current_menu_items = []
-    iter = MAX_ORDERS_PER_ITEM
 
     # unless you change the MAX_ORDERS_PER_ITEM macro, will just add 1 of each item to the set
     for i in dict_all_items:
-        if(i.hall == dining_hall_choice):
-            iter = MAX_ORDERS_PER_ITEM 
-            while iter > 0:
-            current_menu_items.add(i)
-            iter = iter - 1
+        if i.hall == dining_hall_choice:
+            j = MAX_ORDERS_PER_ITEM
+            while j > 0:
+                current_menu_items.add(i)
+                j = j - 1
 
-    current_menu_items.sort(key=lamba x: x.score)
+    current_menu_items.sort(key=lamba x: x.score) # TODO?
 
 
     ### CONSTRUCT MEAL ### 
@@ -195,9 +194,9 @@ def get_ideal_meal(dict_all_items, dining_hall_choice, dining_hall_period, calor
 
     # check whether any other elements would give the meal a lower score (if we run out of time, just use the code above and comment this all out)
 
-    iter = ALG_ITERATIONS
+    k = ALG_ITERATIONS
 
-    while iter > 0:
+    while k > 0:
         for i in current_menu_items:
 
             curr_score = 0
@@ -216,16 +215,17 @@ def get_ideal_meal(dict_all_items, dining_hall_choice, dining_hall_period, calor
                     current_menu_items.add(j)
                     meal.remove(j)
                     current_menu_items.remove(i)
-                    current_menu_items.sort(key=lamba x: x.score)
-                    while(temp_calorie_count < calorie_count_allotment):
+                    current_menu_items.sort(key=lamba x: x.score) # TODO
+                    while temp_calorie_count < calorie_count_allotment:
                         meal.add(temp_calorie_count[0])
                         temp_calorie_count += temp_calorie_count[0].calories
                         temp_calorie_count.remove(temp_calorie_count[0])
-                    meal.sort(key=lamba x: x.calories) # should be in increasing order (i hope)
-                    while(temp_calorie_count > calorie_count_allotment + CALORIE_UPPER_THRESHOLD):
+                    meal.sort(key=lamba x: x.calories) # should be in increasing order (i hope) TODO
+                    while temp_calorie_count > calorie_count_allotment + CALORIE_UPPER_THRESHOLD:
                         temp_calorie_count -= meal[0]
                         current_menu_items.add(meal[0])
                         meal.remove(meal[0])
+        k = k - 1
 
 
 
@@ -255,7 +255,7 @@ def cost_function(dict_all_items):
     ignore = -1
 
 
-    ### flags ### - *ADD ACTUAL VALUES HERE WHEN U FIND OUT HOW THEY'RE IMPlEMENTED
+    ### flags ### - *ADD ACTUAL VALUES HERE WHEN U FIND OUT HOW THEY'RE IMPLEMENTED
     carbon_flag = False
     carbs_flag = False
     fat_flag = False
@@ -317,7 +317,7 @@ def cost_function(dict_all_items):
 # then for each item in our guess, iterate through potential replacements of it; if the replacement would lower that whole meal's score, replace it
 # but make sure there is a limit to each individual items so that menu is balanced (maybe 1 or 2 is the default for most menu items)
 
-# add one of each item until calorie limit (or some other limit) is reached (loop back aroung to begining if you run out of items)
+# add one of each item until calorie limit (or some other limit) is reached (loop back around to beginning if you run out of items)
 # once limit is reached, start 'checking' your items 
 # if there is an item that improves overall score without going over that item's limit, replace current item with that item
 # could implement this by adding all possible items to a sorted list - when you replace an item in this menu plan, add it back to the list
@@ -326,7 +326,7 @@ def cost_function(dict_all_items):
 
 
 # create list of possible items possible_items by adding each item, the number of times determined by [max_amount] 
-# (which can either be a global # like 2 or be determined based on the portion size etc)
+# (which can either be a global # like 2 or be determined based on the portion size etc.)
 
 #     while (total number of calories < threshold):
 #         add front item in possible_items to curr_menu 
