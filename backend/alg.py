@@ -3,6 +3,25 @@
 
 ### DEFINE DEFAULTS FOR EACH PARAMETER HERE
 
+CARBON_SCORE_DEFUALT = 15
+FAT_DEFAULT = 2
+SAT_FAT_DEFAULT = 3
+TRANS_FAT_DEFAULT = 6
+CHOLESTEROL_DEFAULT = 6
+SODIUM_DEFAULT = 1
+CARBOHYDRATE_DEFAULT = 1
+FIBER_DEFAULT = 1
+SUGAR_DEFAULT = 8
+PROTEIN_DEFAULT = 2
+PROTEIN_DAILY_AMOUNT = 56 # could add option to change it - recommended formula is 0.8 * body weight (kg)
+CALCIUM_DEFUALT = 0.2
+IRON_DEFAULT = 0.2
+POTASSIUM_DEFAULT = 0.2
+VITAMIN_D_DEFAULT = 0.2
+
+DAILY_CALORIE_DEFAULT = 2000
+
+
 # carbon_score: 0 for low carbon, 15 for neutral, 30 for high carbon (double values for low carbon option)
 # hall & meal: 0
 # calories: 0  # don't really care about the number of calories itself - care more about nutritional value per calorie - > explore how to incorporate that more
@@ -49,7 +68,25 @@ def __init__(self, name):
 
 
     
-def determine_score(dict_menu_items, menu_options):
+def get_ideal_meal(dict_all_items, dining_hall_choice, carbon_flag, carbs_flag, fat_flag, sugar_flag):
+
+    for i in dict_all_items:
+
+        if i.carbon_score == -1: # high carbon
+            score += 2 * CARBON_SCORE_DEFUALT
+            if carbon_flag == true:
+                score += 2 * CARBON_SCORE_DEFUALT
+        elif i.carbon_score == 0:
+            score += CARBON_SCORE_DEFUALT
+
+        if fat_flag == true:
+            score += fat
+
+
+
+
+
+
 
     #note: will do this for each dining hall! then compare the score at each one
 
@@ -113,6 +150,7 @@ def determine_score(dict_menu_items, menu_options):
 
 
 
+
         
         
 
@@ -131,8 +169,43 @@ def determine_score(dict_menu_items, menu_options):
 
 
 
-def cost_function(dict_menu_items):
+def cost_function(dict_all_items):
 
+
+    # 0 = BPLATE
+    # 1 = DE NEVE
+    # 2 = EPICURIA
+    # 3 = RENDE
+    # 4 = THE STUDY
+
+
+    breakfast_hall = random.randint(0,4)
+    lunch_hall = random.randint(0,4)
+    ignore = -1
+    if breakfast_hall == lunch_hall:
+        ignore = breakfast_hall
+
+    dinner_hall = random.randint(0,4)
+    while dinner_hall == ignore:
+        dinner_hall = random.randint(0,4)
+
+    ignore = 0
+
+
+    ### flags ### - *ADD ACTUAL VALUES HERE WHEN U FIND OUT HOW THEY'RE IMPlEMENTED
+    carbon_flag = false
+    carbs_flag = false
+    fat_flag = false
+    sugar_flag = false
+
+
+    ideal_breakfast = get_ideal_meal(dict_all_items, breakfast_hall, carbon_flag, carbs_flag, fat_flag, sugar_flag)
+    ideal_lunch = get_ideal_meal(dict_all_items, lunch_hall, carbon_flag, carbs_flag, fat_flag, sugar_flag)
+    ideal_dinner = get_ideal_meal(dict_all_items, dinner_hall, carbon_flag, carbs_flag, fat_flag, sugar_flag)
+    
+        
+    
+    
 
     # choose a random dining hall for breakfast and lunch
     # if the same dining hall was chosen for breakfast and lunch:
