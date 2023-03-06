@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ChevronDoubleRightIcon,
   CheckCircleIcon,
@@ -9,6 +9,7 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import { PieChart } from "react-minimal-pie-chart";
+
 
 const dietaryPreferences = [
   {
@@ -161,47 +162,85 @@ function Recommendation() {
 }
 
 function CalorieForm() {
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  useEffect(() => {
+    const toggles = document.querySelectorAll('.toggle');
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        toggles.forEach((t) => {
+          t.classList.remove('selected');
+        });
+        toggle.classList.add('selected');
+        setSelectedValue(toggle.getAttribute('data-value'));
+      });
+    });
+
+    return () => {
+      toggles.forEach((toggle) => {
+        toggle.removeEventListener('click', () => {});
+      });
+    };
+  }, []);
+
+  const handleToggleClick = (event) => {
+    setSelectedValue(event.target.getAttribute('data-value'));
+  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const calories = event.target.calories.value;
+    const dietary = selectedValue;
+    console.log(dietary)
+    console.log(calories);
+    // const data = Object.fromEntries(formData.entries());
+    // const payload = { selectedValue, ...data };
+    // Send the data to the backend using Axios or another method
+  };
+
   return (
     <div>
       <p className="mt-6 text-lg leading-8 text-gray-300">
         Choose your dietary preference
       </p>
-      <a href="#" className="mt-2 inline-flex space-x-6">
-        {dietaryPreferences.map((diet) => (
-          <span
-            key={diet.name}
-            className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
-          >
-            {diet.name}
-          </span>
-        ))}
-      </a>
-      <p className="mt-6 text-lg leading-8 text-gray-300">
-        Enter your Daily Calorie Goals
-      </p>
-      <div className="relative mt-2 rounded-md shadow-sm">
-        <input
-          type="text"
-          name="price"
-          id="price"
-          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          placeholder="0.00"
-          aria-describedby="price-currency"
-        />
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-          <span className="text-gray-500 sm:text-sm" id="price-currency">
-            kCal
-          </span>
+      <form id="my-form" onSubmit={handleSubmit}>
+        <div className="mt-2 inline-flex space-x-6">
+          {dietaryPreferences.map((diet) => (
+            <button
+              key={diet.name}
+              onClick={handleToggleClick}
+              data-value={diet.name}
+              className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
+            >
+              {diet.name}
+            </button>
+          ))}
         </div>
-      </div>
-      <div className="mt-10 flex items-center gap-x-6">
-        <a
-          href="#"
-          className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
-        >
-          Gimme my meal plan!
-        </a>
-      </div>
+        <p className="mt-6 text-lg leading-8 text-gray-300">
+          Enter your Daily Calorie Goals
+        </p>
+        <div className="relative mt-2 rounded-md shadow-sm">
+            <input
+              type="text"
+              name="calories"
+              className="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              placeholder="0.00"
+              aria-describedby="price-currency"
+            />
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+            <span className="text-gray-500 sm:text-sm" id="price-currency">
+              kCal
+            </span>
+          </div>
+        </div>
+        <div className="mt-10 flex items-center gap-x-6">
+          <button type="submit"
+            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
+          >
+            Gimme my meal plan!
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
