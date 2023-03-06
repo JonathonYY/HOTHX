@@ -164,7 +164,7 @@ def get_ideal_meal(dict_all_items, dining_hall_choice, dining_hall_period, calor
             i.score += (daily_value_portion - i.vit_d_dv) * VIT_D_DEFUALT
 
 
-    ### SORT ITEMS FROM THAT DINING HALL AND PUT THEM IN A NEW SET ###
+
 
     current_menu_items = []
     iter = MAX_ORDERS_PER_ITEM
@@ -242,7 +242,7 @@ def cost_function(dict_all_items):
     # 4 = THE STUDY
 
 
-    breakfast_hall = random.randint(0,4)
+    breakfast_hall = random.randint(0,4) ##TODO: CHOOSE ONE THAT'S OPEN!!
     lunch_hall = random.randint(0,4)
     ignore = -1
     if breakfast_hall == lunch_hall:
