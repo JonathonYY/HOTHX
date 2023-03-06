@@ -9,6 +9,14 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import { PieChart } from "react-minimal-pie-chart";
+import axios from 'axios';
+
+async function get_meal_plan(query) {
+  return await axios.get(
+    'http://localhost:5000/api/get-meal-plan',
+    { params: query }
+  );
+}
 
 
 const dietaryPreferences = [
