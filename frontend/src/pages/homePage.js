@@ -8,7 +8,7 @@ import {
   CalendarDaysIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
-import { PieChart } from 'react-minimal-pie-chart';
+import { PieChart } from "react-minimal-pie-chart";
 
 const dietaryPreferences = [
   {
@@ -124,68 +124,37 @@ const footerNavigation = {
 
 function Recommendation() {
   return (
-    <main className="py-6 px-4 sm:p-6 md:py-10 md:px-8">
-      <div className="max-w-4xl mx-auto grid grid-cols-1 lg:max-w-5xl lg:gap-x-20 lg:grid-cols-2">
-         <div className="relative">
-            <div className="flex items-start space-x-6 p-6 text-white">
-               <div className="h-20">
-                  <PieChart 
-                     data={[
-                        { title: 'One', value: 10, color: '#E38627' },
-                        { title: 'Two', value: 15, color: '#C13C37' },
-                        { title: 'Three', value: 20, color: '#6A2135' },
-                     ]}
-                  />
-               </div>
-               <div className="min-w-0 relative flex-auto">
-                  <p>Total Calories</p>
-                  <div>
-                     <h1 className="inline-block text-lg">1194&nbsp;</h1>
-                     <p className="inline-block">kcal</p>
-                  </div>
-                  <p className="block">Fat 49 g</p>
-                  <p>Carbs 99 g</p>
-                  <p>Protein 99 g</p>
-               </div>
+    <main className="mt-24 min-h-fit py-6 px-4 sm:p-6 md:py-10 md:px-8 rounded-lg bg-slate-500 bg-opacity-80">
+      <div className="max-w-4xl mx-auto lg:max-w-5xl lg:gap-x-20">
+        <div className="relative">
+          <div className="flex items-start space-x-6 p-6 text-white">
+            <div className="h-20">
+              <PieChart
+                data={[
+                  { title: "One", value: 10, color: "#E38627" },
+                  { title: "Two", value: 15, color: "#C13C37" },
+                  { title: "Three", value: 20, color: "#6A2135" },
+                ]}
+              />
             </div>
-         </div>
-        <div class="p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg sm:bg-none sm:row-start-2 sm:p-0 lg:row-start-1">
-          <h1 class="mt-1 text-lg font-semibold text-white sm:text-slate-900 md:text-2xl dark:sm:text-white">
-            Beach House in Collingwood
-          </h1>
-          <p class="text-sm leading-4 font-medium text-white sm:text-slate-500 dark:sm:text-slate-400">
-            Entire house
-          </p>
+            <div className="min-w-0 relative flex-auto">
+              <p>Total Calories</p>
+              <div>
+                <h1 className="inline-block text-lg">1194&nbsp;</h1>
+                <p className="inline-block">kcal</p>
+              </div>
+              <p className="block">Fat 49 g</p>
+              <p>Carbs 99 g</p>
+              <p>Protein 99 g</p>
+            </div>
+          </div>
         </div>
-        <div class="grid gap-4 col-start-1 col-end-3 row-start-1 sm:mb-6 sm:grid-cols-4 lg:gap-6 lg:col-start-2 lg:row-end-6 lg:row-span-6 lg:mb-0">
+        <div class="grid gap-4 col-start-1 col-end-3 row-start-1 sm:mb-6 sm:grid-cols-4 lg:gap-6 lg:col-start-2 lg:row-end-6 lg:row-span-6 lg:mb-0"></div>
+        <div class="mt-4 col-start-2 row-start-3 self-center sm:mt-0 sm:col-start-2 sm:row-start-2 sm:row-span-2 lg:mt-1 lg:col-start-1 lg:row-start-3 lg:row-end-4">
         </div>
-        <dl class="mt-4 text-xs font-medium flex items-center row-start-2 sm:mt-1 sm:row-start-3 md:mt-2.5 lg:row-start-2">
-          <dt class="sr-only">Reviews</dt>
-          <dd class="text-indigo-600 flex items-center dark:text-indigo-400">
-            <span>
-              4.89 <span class="text-slate-400 font-normal">(128)</span>
-            </span>
-          </dd>
-          <dt class="sr-only">Location</dt>
-          <dd class="flex items-center">
-            Collingwood, Ontario
-          </dd>
-        </dl>
-        <div class="mt-4 col-start-1 row-start-3 self-center sm:mt-0 sm:col-start-2 sm:row-start-2 sm:row-span-2 lg:mt-6 lg:col-start-1 lg:row-start-3 lg:row-end-4">
-          <button
-            type="button"
-            class="bg-indigo-600 text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg"
-          >
-            Check availability
-          </button>
-        </div>
-        <p class="mt-4 text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">
-          This sunny and spacious room is for those traveling light and looking
-          for a comfy and cosy place to lay their head for a night or two. This
-          beach house sits in a vibrant neighborhood littered with cafes, pubs,
-          restaurants and supermarkets and is close to all the major attractions
-          such as Edinburgh Castle and Arthur's Seat.
-        </p>
+        <Meal />
+        <Meal />
+        <Meal />
       </div>
     </main>
   );
@@ -201,7 +170,7 @@ function CalorieForm() {
         {dietaryPreferences.map((diet) => (
           <span
             key={diet.name}
-            className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20"
+            className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
           >
             {diet.name}
           </span>
@@ -228,11 +197,84 @@ function CalorieForm() {
       <div className="mt-10 flex items-center gap-x-6">
         <a
           href="#"
-          className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+          className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300"
         >
           Gimme my meal plan!
         </a>
       </div>
+    </div>
+  );
+}
+
+function Meal() {
+  return (
+    <div className="mt-10">
+      <p class="text-sm leading-4 font-medium text-white sm:text-slate-500 dark:sm:text-slate-400">
+        Breakfast
+      </p>
+      <article className="flex items-start space-x-6 p-6">
+        <img
+          src="https://drive.google.com/uc?id=1BBZAH-nDNhAjFnvga0dlILf7rSIVxJ45"
+          alt=""
+          width="60"
+          height="88"
+          className="flex-none rounded-md bg-slate-100"
+        />
+        <div className="min-w-0 relative flex-auto">
+          <h2 className="font-semibold text-slate-900 truncate pr-20">
+            Bacon and Eggs
+          </h2>
+          <dl className="mt-2 flex flex-wrap text-sm leading-6 font-medium">
+            <div className="absolute top-0 right-0 flex items-center space-x-1">
+              <dt className="text-sky-500">
+                <span className="sr-only">Star rating</span>
+                <svg width="16" height="20" fill="currentColor">
+                  <path d="M7.05 3.691c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.372 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.539 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.363-1.118L.98 9.483c-.784-.57-.381-1.81.587-1.81H5.03a1 1 0 00.95-.69L7.05 3.69z" />
+                </svg>
+              </dt>
+              <dd>4.5</dd>
+            </div>
+            <div>
+              <dt className="sr-only">Rating</dt>
+              <dd className="px-1.5 ring-1 ring-slate-200 rounded">4.75</dd>
+            </div>
+            <div className="ml-2">
+              <dt className="sr-only">Year</dt>
+              <dd>x g carbs</dd>
+            </div>
+            <div>
+              <dt className="sr-only">Genre</dt>
+              <dd className="flex items-center">
+                <svg
+                  width="2"
+                  height="2"
+                  fill="currentColor"
+                  className="mx-2 text-slate-300"
+                  aria-hidden="true"
+                >
+                  <circle cx="1" cy="1" r="1" />
+                </svg>
+                Melody
+              </dd>
+            </div>
+            <div>
+              <dt className="sr-only">Runtime</dt>
+              <dd className="flex items-center">
+                <svg
+                  width="2"
+                  height="2"
+                  fill="currentColor"
+                  className="mx-2 text-slate-300"
+                  aria-hidden="true"
+                >
+                  <circle cx="1" cy="1" r="1" />
+                </svg>
+                120m
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </article>
     </div>
   );
 }
@@ -296,7 +338,7 @@ function HomePage() {
               </linearGradient>
             </defs>
           </svg>
-          <div className="mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-40 lg:flex lg:px-8 lg:pt-20">
+          <div className="grid grid-cols-1 xl:gap-x-44 lg:grid-cols-2 mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-40 lg:flex lg:px-8 lg:pt-20">
             <div className="bg-mt-8 mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
               <img
                 className="h-12"
@@ -313,10 +355,10 @@ function HomePage() {
                 <CalorieForm />
               </div>
             </div>
+            <Recommendation />
           </div>
         </div>
 
-         <Recommendation />
         {/* Feature section */}
         <div className="mt-32 lg:mt-16">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
