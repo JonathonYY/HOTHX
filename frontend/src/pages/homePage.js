@@ -11,13 +11,6 @@ import {
 import { PieChart } from "react-minimal-pie-chart";
 import axios from 'axios';
 
-async function get_meal_plan(query) {
-  return await axios.get(
-    'http://localhost:5000/api/get-meal-plan',
-    { params: query }
-  );
-}
-
 
 const dietaryPreferences = [
   {
@@ -327,6 +320,20 @@ function Meal() {
 }
 
 function HomePage() {
+  async function get_meal_plan() {
+    const postString = '';
+    try {
+      const response = await axios.get(
+        'http://localhost:5000/api/get-meal-plan',
+        { params: postString }
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  get_meal_plan();
   return (
     <div className="bg-gray-900">
       <main>
