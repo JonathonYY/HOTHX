@@ -591,7 +591,7 @@ function HomePage() {
             </div>
             <p className="mt-8 text-xs leading-5 text-gray-400 md:order-1 md:mt-0">
               &copy; bmeal.<br></br> Developed by Harvey Zhao, Ronan Okinanka,
-              Jonathan Youngquist and Sammy Levy
+              Jonathon Youngquist and Sammy Levy
             </p>
           </div>
         </div>
