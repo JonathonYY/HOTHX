@@ -1,11 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route, Link, Outlet, Switch } from 'react-router-dom';
+import HomePage from './pages/homePage'
 
 function App() {
   return (
-    <div className="w-96 bg-white shadow rounded">
-      test
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage/>} />
+      </Routes>
+    </BrowserRouter>
+    
   );
 }
 
