@@ -1,141 +1,62 @@
 import React from "react";
 import {
-
   ChevronDoubleRightIcon,
-  ChevronDoubleLeftIcon,
-  ChevronDoubleDownIcon,
-  InformationCircleIcon,
+  CheckCircleIcon,
 } from "@heroicons/react/20/solid";
 import {
   BoltIcon,
   CalendarDaysIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
+import { PieChart } from 'react-minimal-pie-chart';
 
-function CalorieForm() {
-  return (
-    <div>
-      <p className="mt-6 text-lg leading-8 text-gray-300">
-        Choose your dietary preference
-      </p>
-      <a href="#" className="mt-2 inline-flex space-x-6">
-        <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-          Anything
-        </span>
-        <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-          Low-fat
-        </span>
-        <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-          Low-sugar
-        </span>
-        <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-          Low-carb
-        </span>
-      </a>
-      <p className="mt-6 text-lg leading-8 text-gray-300">
-        Enter your Daily Calorie Goals
-      </p>
-      <div className="relative mt-2 rounded-md shadow-sm">
-        <input
-          type="text"
-          name="price"
-          id="price"
-          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          placeholder="0.00"
-          aria-describedby="price-currency"
-        />
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-          <span className="text-gray-500 sm:text-sm" id="price-currency">
-            kCal
-          </span>
-        </div>
-      </div>
-      <div className="mt-10 flex items-center gap-x-6">
-        <a
-          href="#"
-          className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-        >
-          Gimme my meal plan!
-        </a>
-      </div>
-    </div>
-  );
-}
-
-const primaryFeatures = [
+const dietaryPreferences = [
   {
-    name: "key in your calorie goals",
-    description:
-      "Non quo aperiam repellendus quas est est. Eos aut dolore aut ut sit nesciunt. Ex tempora quia. Sit nobis consequatur dolores incidunt.",
+    name: "Anything",
     href: "#",
     icon: BoltIcon,
   },
   {
-    name: "We will do the rest",
-    description:
-      "Vero eum voluptatem aliquid nostrum voluptatem. Vitae esse natus. Earum nihil deserunt eos quasi cupiditate. A inventore et molestiae natus.",
+    name: "Low-carb",
     href: "#",
     icon: UsersIcon,
   },
   {
-    name: "",
-    description:
-      "Et quod quaerat dolorem quaerat architecto aliquam accusantium. Ex adipisci et doloremque autem quia quam. Quis eos molestiae at iure impedit.",
+    name: "Low-fat",
     href: "#",
     icon: CalendarDaysIcon,
+  },
+  {
+    name: "Low-sugar",
+    href: "#",
+    icon: UsersIcon,
   },
 ];
 const secondaryFeatures = [
   {
     name: "Enter Calorie Goals.",
-    description:
-      "Enter how much you want to eat for today!",
+    description: "Enter how much you want to eat for today.",
     icon: ChevronDoubleRightIcon,
   },
   {
     name: "Select dietary preference.",
-    description:
-      "In the filter above the form, click on your desired diet!",
+    description: "In the filter above the form, click on your desired diet!",
     icon: ChevronDoubleRightIcon,
   },
   {
-    name: "Wait for result.",
+    name: "Claim your customized meal plan.",
     description:
       "You are in good hands! We will help you choose the healthiest meal while also minimizing your carbon footprint!",
-    icon: InformationCircleIcon,
+    icon: CheckCircleIcon,
   },
 ];
 const stats = [
   { id: 1, name: "Tons of CO2 saved", value: "100+" },
   { id: 2, name: "Decrease in carbon Footprint", value: "30%" },
   { id: 3, name: "User Satisfaction", value: "100%" },
-  { id: 4, name: "Dishes included", value: "90+" },
+  { id: 4, name: "Dishes included", value: "200+" },
 ];
 const footerNavigation = {
-  solutions: [
-    { name: "Hosting", href: "#" },
-    { name: "Data Services", href: "#" },
-    { name: "Uptime Monitoring", href: "#" },
-    { name: "Enterprise Services", href: "#" },
-  ],
-  support: [
-    { name: "Pricing", href: "#" },
-    { name: "Documentation", href: "#" },
-    { name: "Guides", href: "#" },
-    { name: "API Reference", href: "#" },
-  ],
-  company: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Jobs", href: "#" },
-    { name: "Press", href: "#" },
-    { name: "Partners", href: "#" },
-  ],
-  legal: [
-    { name: "Claim", href: "#" },
-    { name: "Privacy", href: "#" },
-    { name: "Terms", href: "#" },
-  ],
   social: [
     {
       name: "Facebook",
@@ -201,6 +122,121 @@ const footerNavigation = {
   ],
 };
 
+function Recommendation() {
+  return (
+    <main className="py-6 px-4 sm:p-6 md:py-10 md:px-8">
+      <div className="max-w-4xl mx-auto grid grid-cols-1 lg:max-w-5xl lg:gap-x-20 lg:grid-cols-2">
+         <div className="relative">
+            <div className="flex items-start space-x-6 p-6 text-white">
+               <div className="h-20">
+                  <PieChart 
+                     data={[
+                        { title: 'One', value: 10, color: '#E38627' },
+                        { title: 'Two', value: 15, color: '#C13C37' },
+                        { title: 'Three', value: 20, color: '#6A2135' },
+                     ]}
+                  />
+               </div>
+               <div className="min-w-0 relative flex-auto">
+                  <p>Total Calories</p>
+                  <div>
+                     <h1 className="inline-block text-lg">1194&nbsp;</h1>
+                     <p className="inline-block">kcal</p>
+                  </div>
+                  <p className="block">Fat 49 g</p>
+                  <p>Carbs 99 g</p>
+                  <p>Protein 99 g</p>
+               </div>
+            </div>
+         </div>
+        <div class="p-3 col-start-1 row-start-1 flex flex-col-reverse rounded-lg sm:bg-none sm:row-start-2 sm:p-0 lg:row-start-1">
+          <h1 class="mt-1 text-lg font-semibold text-white sm:text-slate-900 md:text-2xl dark:sm:text-white">
+            Beach House in Collingwood
+          </h1>
+          <p class="text-sm leading-4 font-medium text-white sm:text-slate-500 dark:sm:text-slate-400">
+            Entire house
+          </p>
+        </div>
+        <div class="grid gap-4 col-start-1 col-end-3 row-start-1 sm:mb-6 sm:grid-cols-4 lg:gap-6 lg:col-start-2 lg:row-end-6 lg:row-span-6 lg:mb-0">
+        </div>
+        <dl class="mt-4 text-xs font-medium flex items-center row-start-2 sm:mt-1 sm:row-start-3 md:mt-2.5 lg:row-start-2">
+          <dt class="sr-only">Reviews</dt>
+          <dd class="text-indigo-600 flex items-center dark:text-indigo-400">
+            <span>
+              4.89 <span class="text-slate-400 font-normal">(128)</span>
+            </span>
+          </dd>
+          <dt class="sr-only">Location</dt>
+          <dd class="flex items-center">
+            Collingwood, Ontario
+          </dd>
+        </dl>
+        <div class="mt-4 col-start-1 row-start-3 self-center sm:mt-0 sm:col-start-2 sm:row-start-2 sm:row-span-2 lg:mt-6 lg:col-start-1 lg:row-start-3 lg:row-end-4">
+          <button
+            type="button"
+            class="bg-indigo-600 text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg"
+          >
+            Check availability
+          </button>
+        </div>
+        <p class="mt-4 text-sm leading-6 col-start-1 sm:col-span-2 lg:mt-6 lg:row-start-4 lg:col-span-1 dark:text-slate-400">
+          This sunny and spacious room is for those traveling light and looking
+          for a comfy and cosy place to lay their head for a night or two. This
+          beach house sits in a vibrant neighborhood littered with cafes, pubs,
+          restaurants and supermarkets and is close to all the major attractions
+          such as Edinburgh Castle and Arthur's Seat.
+        </p>
+      </div>
+    </main>
+  );
+}
+
+function CalorieForm() {
+  return (
+    <div>
+      <p className="mt-6 text-lg leading-8 text-gray-300">
+        Choose your dietary preference
+      </p>
+      <a href="#" className="mt-2 inline-flex space-x-6">
+        {dietaryPreferences.map((diet) => (
+          <span
+            key={diet.name}
+            className="rounded-full bg-indigo-500/10 px-3 py-1 text-xs font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20"
+          >
+            {diet.name}
+          </span>
+        ))}
+      </a>
+      <p className="mt-6 text-lg leading-8 text-gray-300">
+        Enter your Daily Calorie Goals
+      </p>
+      <div className="relative mt-2 rounded-md shadow-sm">
+        <input
+          type="text"
+          name="price"
+          id="price"
+          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          placeholder="0.00"
+          aria-describedby="price-currency"
+        />
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+          <span className="text-gray-500 sm:text-sm" id="price-currency">
+            kCal
+          </span>
+        </div>
+      </div>
+      <div className="mt-10 flex items-center gap-x-6">
+        <a
+          href="#"
+          className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+        >
+          Gimme my meal plan!
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function HomePage() {
   return (
     <div className="bg-gray-900">
@@ -261,13 +297,13 @@ function HomePage() {
             </defs>
           </svg>
           <div className="mx-auto max-w-7xl px-6 pt-10 pb-24 sm:pb-40 lg:flex lg:px-8 lg:pt-20">
-            <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
+            <div className="bg-mt-8 mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
               <img
                 className="h-12"
                 src="https://drive.google.com/uc?id=1BBZAH-nDNhAjFnvga0dlILf7rSIVxJ45"
                 alt="bmeal"
               />
-              <div className="sm:mt-32 lg:mt-16">
+              <div className="mt-16">
                 <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
                   Eat Healthier. Eat Greener.
                 </h1>
@@ -280,6 +316,7 @@ function HomePage() {
           </div>
         </div>
 
+         <Recommendation />
         {/* Feature section */}
         <div className="mt-32 lg:mt-16">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -291,9 +328,8 @@ function HomePage() {
                 Here is how it works
               </p>
               <p className="mt-6 text-lg leading-8 text-gray-300">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Maiores impedit perferendis suscipit eaque, iste dolor
-                cupiditate blanditiis.
+                key in calorie goals and diet, we will handle the rest for you
+                and the environment.
               </p>
             </div>
           </div>
@@ -464,14 +500,6 @@ function HomePage() {
           </div>
         </div>
       </footer>
-    </div>
-  );
-}
-
-function Selector() {
-  return (
-    <div className="flex">
-      <div className=""></div>
     </div>
   );
 }
