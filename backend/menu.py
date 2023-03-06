@@ -14,15 +14,16 @@ class MenuItem(OrmBase):
     carbon_score: db.Mapped[str] = db.mapped_column(db.Integer())
     im_url: db.Mapped[str] = db.mapped_column(db.String(200))
 
-    calories: db.Mapped[int] = db.mapped_column(db.Integer())
-    carbs: db.Mapped[int] = db.mapped_column(db.Integer())
-    chol: db.Mapped[int] = db.mapped_column(db.Integer())
-    fat: db.Mapped[int] = db.mapped_column(db.Integer())
-    fiber: db.Mapped[int] = db.mapped_column(db.Integer())
-    protein: db.Mapped[int] = db.mapped_column(db.Integer())
-    sat_fat: db.Mapped[int] = db.mapped_column(db.Integer())
-    sodium: db.Mapped[int] = db.mapped_column(db.Integer())
-    sugar: db.Mapped[int] = db.mapped_column(db.Integer())
+    calories: db.Mapped[float] = db.mapped_column(db.Float())
+    carbs: db.Mapped[float] = db.mapped_column(db.Float())
+    chol: db.Mapped[float] = db.mapped_column(db.Float())
+    fat: db.Mapped[float] = db.mapped_column(db.Float())
+    fiber: db.Mapped[float] = db.mapped_column(db.Float())
+    protein: db.Mapped[float] = db.mapped_column(db.Float())
+    sat_fat: db.Mapped[float] = db.mapped_column(db.Float())
+    sodium: db.Mapped[float] = db.mapped_column(db.Float())
+    sugar: db.Mapped[float] = db.mapped_column(db.Float())
+    trans_fat: db.Mapped[float] = db.mapped_column(db.Float())
 
     calcium_dv: db.Mapped[float] = db.mapped_column(db.Float())
     carbs_dv: db.Mapped[float] = db.mapped_column(db.Float())
@@ -34,6 +35,7 @@ class MenuItem(OrmBase):
     sat_fat_dv: db.Mapped[float] = db.mapped_column(db.Float())
     sodium_dv: db.Mapped[float] = db.mapped_column(db.Float())
     vit_d_dv: db.Mapped[float] = db.mapped_column(db.Float())
+
 
     def __init__(self, values):
         for key, value in values.items():
