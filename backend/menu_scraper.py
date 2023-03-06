@@ -57,18 +57,20 @@ def parse_meal(source, meal):
 def parse_recipe(url, hall, time):
     r = requests.get(url)
     vals = {'meal': time, 'hall': hall, 'carbon_score': 0, 'name': '', 'calories': 0,
-            'fat': 0, 'sat_fat': 0, 'chol': 0, 'sodium': 0, 'carbs': 0,
-            'protein': 0, 'calcium_dv': 0, 'iron_dv': 0, 'potassium_dv': 0,
-            'vit_d_dv': 0, 'fat_dv': 0, 'sat_fat_dv': 0, 'chol_dv': 0,
-            'sodium_dv': 0, 'carbs_dv': 0, 'fiber': 0, 'fiber_dv': 0,
-            'sugar': 0, 'im_url': '', 'trans_fat': 0}
+            'fat': 0, 'sat_fat': 0, 'chol': 0, 'sodium': 0, 'carbs': 0, 'protein': 0,
+            'calcium_dv': 0, 'iron_dv': 0, 'potassium_dv': 0, 'vit_d_dv': 0, 'fat_dv': 0,
+            'sat_fat_dv': 0, 'chol_dv': 0, 'sodium_dv': 0, 'carbs_dv': 0, 'fiber': 0,
+            'fiber_dv': 0, 'sugar': 0, 'im_url': '', 'trans_fat': 0, 'vegetarian': 0,
+            'vegan': 0, 'peanuts': 0, 'tree_nuts': 0, 'wheat': 0, 'gluten': 0, 'soy': 0,
+            'sesame': 0, 'dairy': 0, 'eggs': 0, 'shellfish': 0, 'fish': 0, 'halal': 0}
     # Extract name
     pattern = '<title>(.*)</title>'
     m = re.search(pattern, r.text)
     if m:
         if m.group(1) == 'UCLA Dining Services':
             return
-        vals['name'] = m.group(1).replace('&amp;', '&')
+        vals['name'] = m.group(1).replace('&amp;', '&').replace('&#233;', 'e').replace('&#39;',
+                                                                                       "'").replace('&#225;', 'a')
 
     # Extract carbon score
     if 'Low Carbon Footprint' in r.text:
@@ -182,3 +184,4 @@ if __name__ == '__main__':
     for recipe in vals:
         print(recipe)
     print(len(vals))
+    # upload_meals()

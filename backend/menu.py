@@ -1,3 +1,5 @@
+from sqlalchemy import SmallInteger
+
 import db
 
 class OrmBase(db.DeclarativeBase):
@@ -24,6 +26,20 @@ class MenuItem(OrmBase):
     sodium: db.Mapped[float] = db.mapped_column(db.Float())
     sugar: db.Mapped[float] = db.mapped_column(db.Float())
     trans_fat: db.Mapped[float] = db.mapped_column(db.Float())
+
+    vegetarian: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    vegan: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    peanuts: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    tree_nuts: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    wheat: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    gluten: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    soy: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    sesame: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    dairy: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    eggs: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    shellfish: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    fish: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
+    halal: db.Mapped[SmallInteger] = db.mapped_column(db.SmallInteger())
 
     calcium_dv: db.Mapped[float] = db.mapped_column(db.Float())
     carbs_dv: db.Mapped[float] = db.mapped_column(db.Float())
