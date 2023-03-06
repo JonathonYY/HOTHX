@@ -6,12 +6,11 @@ import menu
 
 
 def get_day_menu(menu_date):
-    url = 'https://menu.dining.ucla.edu/Menus/' + str(menu_date)
-    r = requests.get(url)
-    text = r.text.split('Breakfast Menu for Today, ')[1]
-    breakfast, text = text.split('Lunch Menu for Today, ')
-    lunch, dinner = text.split('Dinner Menu for Today, ')
-    vals = parse_meal(breakfast, "Breakfast") + parse_meal(lunch, "Lunch") + parse_meal(dinner, "Dinner")
+    base_url = 'https://menu.dining.ucla.edu/Menus/' + str(menu_date)
+    breakfast = requests.get(base_url + "/Breakfast")
+    lunch = requests.get(base_url + "/Lunch")
+    dinner = requests.get(base_url + "/Dinner")
+    vals = parse_meal(breakfast.text, "Breakfast") + parse_meal(lunch.text, "Lunch") + parse_meal(dinner.text, "Dinner")
     return vals
 
 
